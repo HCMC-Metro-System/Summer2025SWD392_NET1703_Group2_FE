@@ -1,5 +1,8 @@
 import {
-  LoginOutlined, UserAddOutlined, ApartmentOutlined
+  LoginOutlined, UserAddOutlined, ApartmentOutlined,
+  DockerOutlined,
+  OrderedListOutlined,
+  UnorderedListOutlined
 } from "@ant-design/icons";
 import { Button, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -49,6 +52,31 @@ export default function Header() {
   const [metroLines, setMetroLines] = useState<GetMetroLineDTO[]>([]);
   const [metroLinesLoading, setMetroLinesLoading] = useState(true);
 
+  const [isTestAccountsModalOpen, setIsTestAccountsModalOpen] = useState(false);
+
+  const testAccounts = [
+    {
+      email: "admin@example.com",
+      password: "123456Admin@",
+      role: "Admin",
+    },
+    {
+      email: "staff@example.com",
+      password: "Hieu@123456",
+      role: "Staff",
+    },
+    {
+      email: "manager@example.com",
+      password: "Hoa@123456",
+      role: "Manager",
+    },
+    {
+      email: "user@example.com",
+      password: "Hoa@123456",
+      role: "Customer",
+    },
+  ];
+
   useEffect(() => {
     const fetchMetroLines = async () => {
       try {
@@ -73,7 +101,6 @@ export default function Header() {
 
         <div className="flex gap-3">
 
-
           <Button
             type="default"
             icon={<ApartmentOutlined className="text-xl" />}
@@ -90,6 +117,16 @@ export default function Header() {
           >
             <span className="hidden sm:text-sm sm:inline">Tuyến Metro</span>
           </Button>
+
+          <Button
+            type="default"
+            className="flex items-center gap-2 px-4 border-blue-900 text-blue-900 hover:!bg-blue-900 hover:!text-white transition-colors rounded-lg shadow-sm !h-auto"
+            onClick={() => setIsTestAccountsModalOpen(true)}
+            icon={<UnorderedListOutlined className="text-xl" />}
+          >
+            <span className="hidden sm:text-sm sm:inline text-red-700">Danh sách tài khoản Test</span>
+          </Button>
+
           {!userInfo ? (
             <>
               {[
@@ -109,7 +146,7 @@ export default function Header() {
             </>
           ) : (
             <>
-              <TicketServiceMenu/>
+              <TicketServiceMenu />
               <UserHeaderMenu userInfo={userInfo} />
             </>
           )}
@@ -150,7 +187,9 @@ export default function Header() {
                     >
                       <img src={icon} alt={line.metroName || `Tuyến Số ${line.metroLineNumber}`} className="w-8 h-8" />
                     </div>
-                    <div className="font-bold text-blue-700 text-base mb-1 text-center w-full">{line.metroName || `Tuyến Số ${line.metroLineNumber}`}</div>
+                    <div className="font-bold text-blue-700 text-base mb-1 text-center w-full">
+                      {line.metroName || `Tuyến Số ${line.metroLineNumber}`}
+                    </div>
                     <div className={`${statusInfo.color} text-2xl mb-1`} aria-label="Trạng thái hoạt động">●</div>
                     <div className="text-gray-900 text-sm text-center">{statusInfo.text}</div>
                   </div>
@@ -160,6 +199,40 @@ export default function Header() {
         </div>
       </Modal>
 
+      <Modal
+        title={<span className="text-blue-700 font-bold text-2xl">Danh sách tài khoản Test</span>}
+        open={isTestAccountsModalOpen}
+        onCancel={() => setIsTestAccountsModalOpen(false)}
+        footer={null}
+        width={800}
+        centered
+      >
+        <div className="overflow-x-auto">
+          <table className="min-w-full border border-gray-200 text-sm">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="border-b border-gray-200 px-4 py-2 text-left font-semibold">#</th>
+                <th className="border-b border-gray-200 px-4 py-2 text-left font-semibold">Email</th>
+                <th className="border-b border-gray-200 px-4 py-2 text-left font-semibold">Password</th>
+                <th className="border-b border-gray-200 px-4 py-2 text-left font-semibold">Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              {testAccounts.map((acc, index) => (
+                <tr key={acc.email} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                  <td className="border-b border-gray-200 px-4 py-2">{index + 1}</td>
+                  <td className="border-b border-gray-200 px-4 py-2 font-mono">{acc.email}</td>
+                  <td className="border-b border-gray-200 px-4 py-2 font-mono">{acc.password}</td>
+                  <td className="border-b border-gray-200 px-4 py-2">{acc.role}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="mt-3 text-xs text-red-600">
+            * Mọi thắc mắc hoặc cần hỗ trợ vui lòng liên hệ zalo: 0326336224 (Hiệu)
+          </p>
+        </div>
+      </Modal>
     </>
   );
 }

@@ -187,7 +187,7 @@ export default function Home() {
                 label: <span className="text-lg font-medium">Lịch hoạt động tuyến Metro </span>,
                 children: (
                   <div className="text-base text-gray-700 pl-2 pt-2">
-                    Tuyến Metro số 1 (Bến Thành – Suối Tiên) hoạt động từ <b>5:00 sáng đến 23:00 tối</b> mỗi ngày. Tần suất tàu chạy dự kiến từ 5-10 phút/chuyến vào giờ cao điểm và 10-15 phút/chuyến vào giờ bình thường.
+                    Tuyến Metro hoạt động từ <b>5:00 sáng đến 23:00 tối</b> mỗi ngày. Tần suất tàu chạy dự kiến từ 5-10 phút/chuyến vào giờ cao điểm và 10-15 phút/chuyến vào giờ bình thường.
                   </div>
                 ),
               },
